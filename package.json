@@ -4,13 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist && mkdir dist && cp ./src/index.html ./dist && tsc"
+    "develop": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "ts-loader": "^9.5.2",
+    "typescript": "5.8.3",
+    "webpack": "5.99.7",
+    "webpack-cli": "6.0.1",
+    "webpack-dev-server": "5.2.1"
   }
 }

@@ -11,7 +11,7 @@ class MyState {
       target[prop] = value;
 
       this.notifySubscribers();
-      
+
       return true;
     },
   });
@@ -34,3 +34,5 @@ class MyState {
     return () => this.subscribers.delete(cb);
   };
 }
+
+export default MyState;
