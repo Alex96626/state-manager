@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 type State = {
   [key: string | symbol]: string;
 };
@@ -5,9 +7,12 @@ type State = {
 // НЕ УМЕЕТ РАБОТАТЬ С ВЛОЖЕННЫМИ ОБЬЕКТАМИ, ТОЛЬКО СТРОКОВЫЕ КЛЮЧИ
 const state: State = {};
 
+const [newState, setState] = useState(state);
+
 const stateProxy = new Proxy(state, {
   set: (target, prop, value) => {
     target[prop] = value;
+    setState(target);
 
     notifySubscribers();
 
