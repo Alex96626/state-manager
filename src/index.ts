@@ -2,37 +2,33 @@ type State = {
   [key: string | symbol]: string;
 };
 
-class MyState {
-  // НЕ УМЕЕТ РАБОТАТЬ С ВЛОЖЕННЫМИ ОБЬЕКТАМИ, ТОЛЬКО СТРОКОВЫЕ КЛЮЧИ
-  _state: State = {};
+// НЕ УМЕЕТ РАБОТАТЬ С ВЛОЖЕННЫМИ ОБЬЕКТАМИ, ТОЛЬКО СТРОКОВЫЕ КЛЮЧИ
+const state: State = {};
 
-  _stateProxy = new Proxy(this._state, {
-    set: (target, prop, value) => {
-      target[prop] = value;
+const stateProxy = new Proxy(state, {
+  set: (target, prop, value) => {
+    target[prop] = value;
 
-      this.notifySubscribers();
+    notifySubscribers();
 
-      return true;
-    },
-  });
+    return true;
+  },
+});
 
-  private subscribers: Set<(state: State) => void> = new Set();
+const subscribers: Set<(state: State) => void> = new Set();
 
-  private notifySubscribers = () => {
-    for (const subscriber of this.subscribers) {
-      subscriber(this._stateProxy);
-    }
-  };
+const notifySubscribers = () => {
+  for (const subscriber of subscribers) {
+    subscriber(stateProxy);
+  }
+};
 
-  public getState = () => {
-    return Object.assign({}, this._stateProxy);
-  };
+const getState = () => {
+  return Object.assign({}, stateProxy);
+};
 
-  public subscribe = (cb: (state: State) => void) => {
-    this.subscribers.add(cb);
+const subscribe = (cb: (state: State) => void) => {
+  subscribers.add(cb);
 
-    return () => this.subscribers.delete(cb);
-  };
-}
-
-export default MyState;
+  return () => subscribers.delete(cb);
+};
